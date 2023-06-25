@@ -40,7 +40,7 @@ pub const yxml_t = struct {
 };
 
 pub inline fn yxml_symlen(x: *yxml_t, s: [*c]const u8) usize {
-    return (@ptrToInt(x.stack) + x.stacklen) - (@ptrToInt(s));
+    return (@intFromPtr(x.stack) + x.stacklen) - (@intFromPtr(s));
 }
 
 const yxml_state_t = enum {
