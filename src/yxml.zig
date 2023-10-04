@@ -157,7 +157,7 @@ inline fn yxml_isRef(c: u8) bool {
 }
 
 inline fn INTFROM5CHARS(a: u8, b: u8, c: u8, d: u8, e: u8) u64 {
-    return (((@intCast(u64, a)) << 32) | ((@intCast(u64, b)) << 24) | ((@intCast(u64, c)) << 16) | ((@intCast(u64, d)) << 8) | (@intCast(u64, e)));
+    return (((@as(u64, @intCast(a))) << 32) | ((@as(u64, @intCast(b))) << 24) | ((@as(u64, @intCast(c))) << 16) | ((@as(u64, @intCast(d))) << 8) | (@as(u64, @intCast(e))));
 }
 
 inline fn yxml_setchar(dest: *u8, ch: u8) void {
@@ -167,28 +167,28 @@ inline fn yxml_setchar(dest: *u8, ch: u8) void {
 fn yxml_setutf8(dest: [*]u8, ch: u32) void {
     var _dest: [*]u8 = dest;
     if (ch <= 0x007F) {
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), @intCast(u8, ch));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), @as(u8, @intCast(ch)));
         _dest += 1;
     } else if (ch <= 0x07FF) {
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0xC0 | @intCast(u8, (ch >> 6)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0xC0 | @as(u8, @intCast((ch >> 6))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, (ch & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast((ch & 0x3F))));
         _dest += 1;
     } else if (ch <= 0xFFFF) {
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0xE0 | @intCast(u8, (ch >> 12)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0xE0 | @as(u8, @intCast((ch >> 12))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, ((ch >> 6) & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast(((ch >> 6) & 0x3F))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, (ch & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast((ch & 0x3F))));
         _dest += 1;
     } else {
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0xF0 | @intCast(u8, (ch >> 18)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0xF0 | @as(u8, @intCast((ch >> 18))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, ((ch >> 12) & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast(((ch >> 12) & 0x3F))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, ((ch >> 6) & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast(((ch >> 6) & 0x3F))));
         _dest += 1;
-        yxml_setchar(@ptrCast(*u8, &_dest[0]), 0x80 | @intCast(u8, (ch & 0x3F)));
+        yxml_setchar(@as(*u8, @ptrCast(&_dest[0])), 0x80 | @as(u8, @intCast((ch & 0x3F))));
         _dest += 1;
     }
     _dest[0] = 0;

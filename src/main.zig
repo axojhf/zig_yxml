@@ -2,12 +2,12 @@ const std = @import("std");
 const yxml = @import("yxml.zig");
 
 pub fn main() !void {
-    var stack: [8 * 1024]u8 = .{};
+    var stack = std.mem.zeroes([8 * 1024]u8);
 
     var x: yxml.yxml_t = .{};
     var r: yxml.yxml_ret_t = .YXML_OK;
     // _ = r;
-    yxml.yxml_init(&x, @ptrCast(*u8, &stack), @sizeOf(@TypeOf(stack)));
+    yxml.yxml_init(&x, @as(*u8, @ptrCast(&stack)), @sizeOf(@TypeOf(stack)));
 
     for (xml_sample0) |v| {
         if (x.total == 92) {
@@ -61,7 +61,7 @@ pub fn y_printres(x: *yxml.yxml_t, r: yxml.yxml_ret_t) void {
                     y_printtoken(x, @constCast("attrval "));
                 }
             }
-            y_printstring(@ptrCast([*]u8, &x.data));
+            y_printstring(@as([*]u8, @ptrCast(&x.data)));
             nextdata = true;
         },
         .YXML_PISTART => {
